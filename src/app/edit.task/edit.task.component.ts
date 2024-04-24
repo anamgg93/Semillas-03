@@ -25,12 +25,7 @@ export class EditTaskComponent implements OnInit {
   ngOnInit() {
     const taskId = this.route.snapshot.paramMap.get('id');
     if (taskId !== null) {
-      const localTask = this.taskService.tasks.find(task => task.id === taskId);
-      if (localTask) {
-        this.task = localTask;
-      } else {
-        this.task = this.taskService.getTaskById(taskId) || this.task;
-      }
+      this.task = this.taskService.getTaskById(taskId) || this.task;
       this.taskService.taskForm.patchValue({
         titulo: this.task.titulo,
         detalle: this.task.detalle

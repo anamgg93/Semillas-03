@@ -1,19 +1,21 @@
-<div class="flex justify-content-between">
+<div class="flex flex-column align-items-center justify-content-center h-full">
   <h2>Editar Tarea</h2>
+
+  <form [formGroup]="taskService.taskForm" class="flex flex-column align-items-center">
+    <div class="field">
+      <label class="block" for="title">Título</label>
+      <input type="text" pInputText id="title" formControlName="titulo" />
+    </div>
+
+    <div class="field">
+      <label class="block">Descripción</label>
+      <textarea pInputTextarea formControlName="detalle"></textarea>
+    </div>
+
+    <div class="flex justify-content-end mt-4">
+      <button type="button" pButton label="Cancelar" class="p-button-secondary" [routerLink]="['/tasks']"></button>
+      <button type="button" pButton label="Guardar" class="p-button-success ml-2" (click)="saveTask()"></button>
+    </div>
+
+  </form>
 </div>
-<form [formGroup]="taskService.taskForm">
-  <div class="field">
-    <label class="block" for="title">Título</label>
-    <input type="text" pInputText id="title" formControlName="titulo" />
-  </div>
-
-  <div class="field">
-    <label class="block">Descripción</label>
-    <textarea pInputTextarea formControlName="detalle"></textarea>
-  </div>
-
-  <div class="flex justify-content-end mt-4">
-    <button type="button" pButton label="Cancelar" class="p-button-secondary" [routerLink]="['/tasks']"></button>
-    <button type="button" pButton label="Guardar" class="p-button-success ml-2" (click)="saveTask()"></button>
-  </div>
-</form>

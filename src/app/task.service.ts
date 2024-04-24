@@ -33,9 +33,11 @@ export class TaskService {
   }
 
   private loadLocalStorage() {
-    const tasksString = localStorage.getItem('tasks');
-    if (tasksString) {
-      this.tasks = JSON.parse(tasksString);
+    if (typeof localStorage !== 'undefined') {
+      const tasksString = localStorage.getItem('tasks');
+      if (tasksString) {
+        this.tasks = JSON.parse(tasksString);
+      }
     }
   }
 
@@ -59,8 +61,11 @@ export class TaskService {
     }
   }
 
-  public generateId(): string {
-    return (++this.lastId).toString();
+  generateId(): string {
+    const lastId = parseInt(localStorage.getItem('lastId') || '0', 10);
+    const newId = lastId + 1;
+    localStorage.setItem('lastId', newId.toString());
+    return newId.toString();
   }
 
   deleteTask(task: Tasks) {
@@ -71,8 +76,8 @@ export class TaskService {
     }
   }
 
-  editTask(taskId: string) {
-    this.router.navigate(['/edit', taskId]);
+  editTask(task: Tasks) {
+    this.router.navigate(['/edit', task.id]);
     this.saveLocalStorage();
   }
 

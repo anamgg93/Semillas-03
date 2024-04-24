@@ -22,8 +22,8 @@ export class TaskComponent {
 
   ];
 
-  editTask(taskId: string) {
-    this.taskService.editTask(taskId);
+  editTask(task: Tasks) {
+    this.taskService.editTask(task);
   }
 
   confirmDelete(task: Tasks) {
