@@ -1,0 +1,53 @@
+<div class="flex justify-content-between">
+  <h2>Lista de Tareas</h2>
+  <p-button label="Añadir Tarea" (click)="taskService.addTaskBtn()"></p-button>
+</div>
+<p-table [value]="taskService.tasks">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Tarea</th>
+      <th>Detalles</th>
+      <th>Completada</th>
+      <th>Editar</th>
+      <th>Borrar</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-task>
+    <tr>
+      <td>{{ task.titulo }}</td>
+      <td>{{ task.detalle }}</td>
+      <td><p-checkbox [(ngModel)]="task.completado" [binary]="true"></p-checkbox></td>
+
+      <td>
+        <p-button label="Editar" [disabled]="task.completado || botonEditarDesactivado"
+          [routerLink]="['/edit', task.id]" severity="warning"></p-button>
+      </td>
+
+      <td>
+        <p-button icon="pi pi-trash" styleClass="p-button-danger" (click)="confirmDelete(task)"></p-button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-confirmDialog header="Eliminar Tarea" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<p-dialog header="Nueva Tarea" [(visible)]="taskService.displayAddTaskBtn" [modal]="true" [style]="{ width: '50vw' }"
+  [draggable]="false" [resizable]="false">
+  <form [formGroup]="taskService.taskForm">
+    <div class="field">
+      <label class="block" for="title">Título</label>
+      <input type="text" pInputText id="title" formControlName="titulo" />
+      <small class="p-error block" *ngIf="taskService.taskForm.controls['titulo'].invalid &&
+                taskService.taskForm.controls['titulo'].dirty">Datos requeridos(min. 3 carácteres)</small>
+    </div>
+    <div class="field">
+      <label class="block">Descripción</label>
+      <textarea pInputTextarea formControlName="detalle"></textarea>
+    </div>
+  </form>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="taskService.addTask()" label="Añadir" pAutoFocus
+      [autofocus]="true"></p-button>
+  </ng-template>
+</p-dialog>
